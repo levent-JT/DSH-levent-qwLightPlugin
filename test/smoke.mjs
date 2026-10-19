@@ -231,11 +231,11 @@ const guarded = icons.__cmp({})
 ok(guarded && Array.isArray(guarded.children) && guarded.children.length === 1, '外层是错误边界')
 const innerEl = guarded.children[0]
 const tree = innerEl.type(innerEl.props)
-ok(tree && tree.type === 'div', '侧栏组件渲染出一个容器')
-ok(tree.children.length === 2, '容器里正好两个图标（QQ + 微信）')
+ok(tree && tree.type === 'div' && /qw-card/.test(tree.props.className), '侧栏卡片容器类名正确')
+ok(tree.children.length === 2, '卡片里正好两个通道（QQ + 微信）')
 const first = tree.children[0]
 const btn = first.type(first.props)
-ok(btn && btn.type === 'button' && /qw-icon-btn/.test(btn.props.className), '图标按钮类名正确')
+ok(btn && btn.type === 'button' && /qw-tile/.test(btn.props.className), '通道方块类名正确')
 
 await clientDispose()
 console.log('\n全部通过：' + pass + ' 条断言')

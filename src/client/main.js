@@ -1,15 +1,24 @@
 // 客户端入口：注入样式、注册两个槽位、拉起数据同步。
 
 const CSS = `
-.qw-foot{display:flex;gap:6px;align-items:center;padding:2px 0}
-.qw-icon-btn{position:relative;width:30px;height:30px;display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(255,255,255,.10);border-radius:9px;background:rgba(255,255,255,.04);
-  color:#7c8698;cursor:pointer;padding:0;transition:color .15s,background .15s,border-color .15s}
-.qw-icon-btn:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.18)}
-.qw-icon-btn.qw-on{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2)}
-.qw-badge{position:absolute;top:-5px;right:-5px;min-width:15px;height:15px;padding:0 4px;border-radius:8px;
-  background:#e5484d;color:#fff;font-size:10px;line-height:15px;text-align:center;font-weight:600;
-  box-shadow:0 0 0 2px rgba(18,22,30,.9)}
+.qw-card{position:relative;width:100%;min-width:0;box-sizing:border-box;height:66px;
+  display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
+  background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,rgba(0,0,0,.30)) 78%,transparent);
+  border:1px solid var(--dsw-alias-border-l1,rgba(255,255,255,.12));
+  backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
+  box-shadow:0 1px 2px #0000000a;
+  transition:border-color .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s cubic-bezier(.2,.8,.2,1)}
+.qw-card:hover{border-color:var(--dsw-alias-border-l2,rgba(255,255,255,.20))}
+.qw-tile{flex:1;min-width:0;box-sizing:border-box;height:44px;display:flex;align-items:center;
+  justify-content:center;gap:6px;padding:0 8px;border-radius:10px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);
+  color:#8b95a6;font:inherit;font-size:12px;font-weight:500;
+  transition:background .16s,border-color .16s,color .16s}
+.qw-tile:hover{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.20)}
+.qw-tile-ico{display:flex;align-items:center;justify-content:center;flex:none}
+.qw-tile-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qw-num{flex:none;min-width:16px;height:16px;padding:0 4px;border-radius:8px;color:#0b0f16;
+  font-size:10px;line-height:16px;text-align:center;font-weight:700}
 
 .qw-mask{position:fixed;inset:0;z-index:2147483000;background:rgba(0,0,0,.45);
   display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
@@ -97,6 +106,7 @@ const CSS = `
 .qw-qr{background:#fff;padding:8px;border-radius:10px}
 .qw-kv{font-size:12px;color:#9aa4b2}
 .qw-kv code{color:#e6e9ef}
+.qw-steps{text-align:left;color:#9aa4b2;font-size:12.5px;line-height:1.85;margin:0;padding-left:22px;max-width:440px}
 .qw-empty{color:#6b7280;font-size:12.5px;padding:16px;text-align:center}
 .qw-err{color:#ff8a8a;font-size:12px;padding:6px 12px}
 `

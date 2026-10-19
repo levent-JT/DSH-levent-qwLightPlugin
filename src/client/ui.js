@@ -12,43 +12,44 @@ function fmtTime(ts) {
   return sameDay ? p(d.getHours()) + ':' + p(d.getMinutes()) : p(d.getMonth() + 1) + '/' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes())
 }
 
-// ── 侧栏两个图标 ────────────────────────────────────────────────────────────
+// ── 侧栏卡片：一个框里放两个通道 ─────────────────────────────────────────────
+// 尺寸与风格照抄网易云侧栏卡片（CDP 实测 256×66，padding 10/14，圆角 12）。
 
 function FooterBar() {
   useTick()
   return el(
     'div',
-    { className: 'qw-foot' },
-    el(ChannelIcon, { channel: 'qq' }),
-    el(ChannelIcon, { channel: 'wx' }),
+    { className: 'qw-card' },
+    el(ChannelTile, { channel: 'qq' }),
+    el(ChannelTile, { channel: 'wx' }),
   )
 }
 
-function ChannelIcon(props) {
+function ChannelTile(props) {
   const channel = props.channel
   const st = store.channels[channel] || {}
   const online = st.status === 'online'
   const n = unreadOf(channel)
   const color = channel === 'qq' ? QQ_COLOR : WX_COLOR
+  const name = channel === 'qq' ? 'QQ' : '微信'
   const label =
     channel === 'qq'
-      ? online
-        ? 'QQ · ' + (st.nick || st.selfId || '已登录')
-        : 'QQ · ' + statusText(st)
-      : online
-        ? '微信 · 已登录'
-        : '微信 · ' + statusText(st)
+      ? 'QQ · ' + (online ? st.nick || st.selfId || '已登录' : statusText(st))
+      : '微信 · ' + (online ? '已登录' : statusText(st))
   return el(
     'button',
     {
-      className: 'qw-icon-btn' + (online ? ' qw-on' : ''),
-      style: online ? { color } : undefined,
+      className: 'qw-tile' + (online ? ' qw-tile-on' : ''),
+      style: online ? { borderColor: color + '66', background: color + '14', color } : undefined,
       title: label,
       'aria-label': label,
       onClick: () => actions.open(channel),
     },
-    channel === 'qq' ? el(QqIcon, { size: 20 }) : el(WxIcon, { size: 20 }),
-    n > 0 ? el('span', { className: 'qw-badge' }, n > 99 ? '99+' : String(n)) : null,
+    el('span', { className: 'qw-tile-ico' }, channel === 'qq' ? el(QqIcon, { size: 16 }) : el(WxIcon, { size: 16 })),
+    el('span', { className: 'qw-tile-name' }, name),
+    n > 0
+      ? el('span', { className: 'qw-num', style: { background: online ? color : '#e5484d' } }, n > 99 ? '99+' : String(n))
+      : null,
   )
 }
 
@@ -355,15 +356,28 @@ function LoginView(props) {
     return el(
       'div',
       { className: 'qw-login' },
-      el('div', { className: 'qw-login-title' }, 'QQ 未连接'),
+      el('div', { className: 'qw-login-title' }, 'QQ 需要 NapCat 才能登录'),
       el('div', { className: 'qw-login-hint' },
-        'QQ 走 NapCat（OneBot 11）。登录二维码在 NapCat 自己的 WebUI 里扫 —— 它是独立进程，' +
-        '扫码这一步不在本插件里。连上之后这里会自动变成彩色图标。'),
+        '本插件没有直接登录 QQ 的能力 —— 它只是把「已经登录的 QQ」接过来显示。' +
+        '登录这一步由 NapCat 完成，所以二维码在 NapCat 那边扫，不在这里。'),
+      el('ol', { className: 'qw-steps' },
+        el('li', {}, '下载并解压 NapCat（选 Shell 版，Windows 免安装）'),
+        el('li', {}, '运行它，用手机 QQ 扫码登录 —— 二维码在 NapCat 自己的窗口里'),
+        el('li', {}, 'NapCat 里新建「WebSocket 服务器」，端口 3001，然后就绪'),
+        el('li', {}, '回到这里点「重试连接」，图标变蓝即可用'),
+      ),
       el('div', { className: 'qw-kv' }, '当前地址：', el('code', {}, st.url || '—')),
       st.error ? el('div', { className: 'qw-err' }, st.error) : null,
       el('div', { className: 'qw-login-actions' },
         el('button', { className: 'qw-btn', onClick: () => actions.reconnectQQ() }, '重试连接'),
-        el('button', { className: 'qw-btn qw-btn-ghost', onClick: () => window.open('http://127.0.0.1:6099/webui', '_blank') }, '打开 NapCat WebUI'),
+        el('button', {
+          className: 'qw-btn qw-btn-ghost',
+          onClick: () => window.open('https://github.com/NapNeko/NapCatQQ/releases', '_blank'),
+        }, '下载 NapCat'),
+        el('button', {
+          className: 'qw-btn qw-btn-ghost',
+          onClick: () => window.open('http://127.0.0.1:6099/webui', '_blank'),
+        }, 'NapCat WebUI'),
       ),
     )
   }

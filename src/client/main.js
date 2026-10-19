@@ -1,20 +1,23 @@
 // 客户端入口：注入样式、注册两个槽位、拉起数据同步。
 
 const CSS = `
-.qw-card{position:relative;width:100%;min-width:0;box-sizing:border-box;height:66px;
-  display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;
-  background:color-mix(in srgb,var(--dsw-alias-bg-layer-2,rgba(0,0,0,.30)) 78%,transparent);
-  border:1px solid var(--dsw-alias-border-l1,rgba(255,255,255,.12));
+.qw-card{position:relative;width:100%;min-width:0;box-sizing:border-box;min-height:66px;
+  display:flex;align-items:stretch;gap:0;padding:10px 8px;border-radius:12px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.14);
   backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);
   box-shadow:0 1px 2px #0000000a;
   transition:border-color .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s cubic-bezier(.2,.8,.2,1)}
-.qw-card:hover{border-color:var(--dsw-alias-border-l2,rgba(255,255,255,.20))}
-.qw-tile{flex:1;min-width:0;box-sizing:border-box;height:44px;display:flex;align-items:center;
-  justify-content:center;gap:6px;padding:0 8px;border-radius:10px;cursor:pointer;
-  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.04);
+.qw-card:hover{border-color:rgba(255,255,255,.22)}
+.qw-tile{position:relative;flex:1 1 0;min-width:0;min-height:44px;box-sizing:border-box;
+  display:flex;align-items:center;justify-content:center;gap:6px;padding:0 8px;
+  border:none;background:transparent;border-radius:8px;cursor:pointer;
   color:#8b95a6;font:inherit;font-size:12px;font-weight:500;
-  transition:background .16s,border-color .16s,color .16s}
-.qw-tile:hover{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.20)}
+  transition:background .16s,color .16s}
+.qw-tile:hover{background:rgba(255,255,255,.07)}
+/* 一个框两个分段：中间一条发丝分隔线，而不是各画一个边框 */
+.qw-tile + .qw-tile::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:1px;
+  background:rgba(255,255,255,.12);pointer-events:none}
 .qw-tile-ico{display:flex;align-items:center;justify-content:center;flex:none}
 .qw-tile-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qw-num{flex:none;min-width:16px;height:16px;padding:0 4px;border-radius:8px;color:#0b0f16;

@@ -1,0 +1,49 @@
+{
+  "name": "dsh-qw-light",
+  "version": "0.1.0",
+  "description": "DSH 轻量 QQ / 微信聊天面板：侧栏两个图标，点开即可收发消息。默认只保留一天聊天记录，空闲时零轮询。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ]
+    }
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "engines": {
+    "dsh": ">=0.1.0",
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build-host.mjs && node scripts/build-client.mjs",
+    "test": "node test/smoke.mjs"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "qq",
+    "wechat",
+    "napcat",
+    "onebot"
+  ],
+  "license": "MIT"
+}

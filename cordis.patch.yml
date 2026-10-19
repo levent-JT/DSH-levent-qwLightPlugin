@@ -1,0 +1,9 @@
+# dsh-qw-light bundle patch：把 Host 半部插入 host Loader。
+# Client 半部由 package.json 的 dsh.client 声明，在 web 平台名单里自动发现。
+#
+# 安装：
+#   在 profile 目录内执行  pnpm add 'link:<本目录绝对路径>'
+#   并在该 profile 的 package.json 的 dsh.profile.bundles 末尾追加 "dsh-qw-light"
+- insert:
+    - id: qw-light
+      name: dsh-qw-light

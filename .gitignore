@@ -1,0 +1,6 @@
+node_modules/
+.tmp-test-home/
+lib/index.js.tmp
+lib/client.js.tmp
+*.log
+.DS_Store
